@@ -3,7 +3,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface ModalState {
     isOpen: boolean
     type: 'modal' | 'element' | null
-    props?: unknown | null
+    props?: {
+        title?: string
+        element?: React.JSX.Element | React.JSX.Element[]
+    } | null
 }
 
 const initialState: ModalState = {
@@ -16,7 +19,7 @@ const modalSlice = createSlice({
     name: 'modal',
     initialState: initialState,
     reducers: {
-        openModal: (state, action: PayloadAction<{ type: ModalState['type']; props: unknown }>) => {
+        openModal: (state, action: PayloadAction<Omit<ModalState, 'isOpen'>>) => {
             state.isOpen = true
             state.type = action.payload.type
             state.props = action.payload.props
