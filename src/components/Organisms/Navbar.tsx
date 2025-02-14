@@ -11,7 +11,7 @@ const Navbar = () => {
         <nav className="px-5! py-3! navbar  bg-gradient-to-r from-red-700 from-30% to-red-900 to-100% justify-between sticky top-0 z-[99999999]!">
             <div className='inline-flex items-center'>
                 <RiNetflixFill className='text-4xl text-white'/>
-                <h2 className="text-3xl font-semibold text-zinc-950 line-through">ETFUCK</h2>
+                <h2 className="text-3xl font-semibold text-zinc-950 line-through">ETF*CK</h2>
             </div>
             <div className="flex-none md:hidden">
                 <Button

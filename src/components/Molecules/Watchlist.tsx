@@ -41,19 +41,17 @@ const Watchlist = () => {
         <div className="p-5!">
             <h2 className="text-2xl">Your Watchlist</h2>
         </div>
-        <div className="grid grid-cols-3 grid-flow-row auto-cols-[300px] p-5! gap-3 overflow-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-flow-row auto-cols-[300px] p-5! gap-3 overflow-auto">
             {
                 Array.isArray(watchList) && watchList?.length > 0 ? 
                 <>
                 {
                     watchList?.map((list, index)=>(
-                        <div>
-                            <Card
-                                key={list?.id}
-                                onClick={() => handleSimilar(list?.id)}
-                                item={list}
-                            />
-                        </div>
+                        <Card
+                            key={list?.id}
+                            onClick={() => handleSimilar(list?.id)}
+                            item={list}
+                        />                        
                     ))
                 }
                 </>

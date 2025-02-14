@@ -1,12 +1,12 @@
 'use client'
-import Button from '@/components/Atoms/Button'
+import Head from 'next/head'
 import RenderType from '@/components/Organisms/RenderType'
 import { ViewProvider } from '@/context/ViewContext'
 
 const Home = () => {
     return (
         <ViewProvider>
-            <div>
+            <div>            
                 <RenderType />
             </div>
         </ViewProvider>

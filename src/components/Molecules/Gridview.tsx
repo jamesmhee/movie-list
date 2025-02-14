@@ -5,15 +5,7 @@ import Item from './Item'
 import { DetailShort } from '@/types/ModalMovie'
 
 const Gridview = ({ id, name }: { id: number; name: string }) => {
-    const { data, isLoading, isError, error } = UseMovie(id)
-    // const [movieState, setMovieState] = useState<DetailShort[]>([])
-
-    // useEffect(() => {
-    //     if (data) {
-    //         setMovieState(data?.results)
-    //     }
-    // }, [data])
-
+    const { data, isLoading, isError, error } = UseMovie(id)    
     if (isLoading) {
         return (
             <div className="py-16!">

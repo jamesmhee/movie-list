@@ -33,7 +33,8 @@ export interface Trailer {
     id: string
 }
 
-export type DetailShort = Omit<Detail, "belongs_to_collection" | "budget" | "genres" | "homepage" | "imdb_id" | "origin_country" | "production_companies" | "production_countries" | "revenue" | "runtime" | "spoken_languages" | "status" | "tagline">
+export type DetailShort = Partial<Omit<Detail, "belongs_to_collection" | "budget" | "genres" | "homepage" | "imdb_id" | "origin_country" | "production_companies" | "production_countries" | "revenue" | "runtime" | "spoken_languages" | "status" | "tagline">>
+export type AddMovie = Partial<Omit<Detail, "belongs_to_collection" | "budget" | "genres" | "homepage" | "imdb_id" | "origin_country" | "production_companies" | "production_countries" | "revenue" | "runtime" | "spoken_languages" | "status" | "tagline">>
 
 export interface Detail {
     adult: boolean

@@ -61,16 +61,16 @@ const Item = ({ detail }: ItemsProps) => {
                             objectFit: 'fill',
                             overflow: 'hidden',
                         }}
-                        src={`${config.url.img + detail?.poster_path}`}
+                        src={`${config?.url?.img + detail?.poster_path}`}
                         width={500}
                         height={500}
-                        alt={detail.title}
+                        alt={detail?.title}
                     />
                 </div>
                 <div className="group-hover:h-full text-zinc-900 dark:text-zinc-100 p-3! flex justify-between w-full h-full top-0 left-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:delay-500 transition-opacity duration-500 ease-out">
                     <div className="bottom-4 left-4">
-                        <h3 className="font-bold">{detail.title}</h3>
-                        <p className="text-sm">{detail.release_date?.split('-')[0]}</p>
+                        <h3 className="font-bold">{detail?.title}</h3>
+                        <p className="text-sm">{detail?.release_date?.split('-')[0]}</p>
                     </div>
                     <div className="flex justify-between items-center gap-2">
                         <Button className="btn-ghost btn-circle">

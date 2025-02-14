@@ -1,5 +1,5 @@
 import { CategoryProps } from '@/services/GetCategory'
-import { Detail, DetailShort } from '@/types/ModalMovie'
+import { AddMovie, Detail, DetailShort } from '@/types/ModalMovie'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface MovieState {
@@ -27,7 +27,7 @@ export const movieSlice = createSlice({
         setMovieList: (state, action: PayloadAction<{ movieList: DetailShort[] }>) => {
             state.movieList = action.payload.movieList
         },
-        addMovieList: (state, action: PayloadAction<{ movie: Detail }>) => {
+        addMovieList: (state, action: PayloadAction<{ movie: AddMovie }>) => {
             state.movieList = [...state.movieList, action.payload.movie]
         },
         clearMovieList: (state) => {

@@ -15,7 +15,10 @@ export default function RootLayout({
     children: React.ReactNode
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html lang="en" suppressHydrationWarning>            
+        <head>
+            <title>NETF*CK</title>            
+        </head>
             <body className={`antialiased scroll-smooth`}>
                 <QueryClientProvider client={queryClient}>
                     <ThemeProvider>
