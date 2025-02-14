@@ -1,11 +1,9 @@
-import { RootState } from '@/redux/store/store'
-import { Detail } from '@/types/ModalMovie'
+import { DetailShort } from '@/types/ModalMovie'
 import { ApiClient } from '@/utils/ApiClient'
-import { useSelector } from 'react-redux'
 
 interface MovieListResponse {
     page: number
-    results: Omit<Detail, "belongs_to_collection" | "budget" | "genres" | "homepage" | "imdb_id" | "origin_country" | "production_companies" | "production_countries" | "revenue" | "runtime" | "spoken_languages" | "status" | "tagline">
+    results: DetailShort[]
     total_pages: number
     total_results: number
 }

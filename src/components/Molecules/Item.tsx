@@ -1,4 +1,3 @@
-import { MovieResult } from '@/services/GetMovieList'
 import Image from 'next/image'
 import { config } from '@/utils/config'
 import Button from '../Atoms/Button'
@@ -10,9 +9,10 @@ import { UseMovieDetails } from '@/hooks/UseMovieDetails'
 import { useEffect } from 'react'
 import ModalMovie from './ModalMovie'
 import { useView } from '@/context/ViewContext'
+import { DetailShort } from '@/types/ModalMovie'
 
 interface ItemsProps {
-    detail: MovieResult
+    detail: DetailShort
 }
 
 const Item = ({ detail }: ItemsProps) => {
