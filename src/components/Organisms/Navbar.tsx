@@ -2,13 +2,17 @@
 import { useState } from 'react'
 import Button from '../Atoms/Button'
 import SwitchTheme from '../Atoms/SwitchTheme'
+import { RiNetflixFill } from "react-icons/ri";
 import Link from 'next/link'
 
 const Navbar = () => {
     const [isShow, setIsShow] = useState(false)
     return (
-        <nav className="p-5! navbar bg-rose-600 justify-between sticky top-0 z-[99999999]!">
-            <h2 className="text-2xl font-semibold text-zinc-200">MOVIELIST</h2>
+        <nav className="px-5! py-3! navbar  bg-gradient-to-r from-red-700 from-30% to-red-900 to-100% justify-between sticky top-0 z-[99999999]!">
+            <div className='inline-flex items-center'>
+                <RiNetflixFill className='text-4xl text-white'/>
+                <h2 className="text-3xl font-semibold text-zinc-950 line-through">ETFUCK</h2>
+            </div>
             <div className="flex-none md:hidden">
                 <Button
                     onClick={() => setIsShow(!isShow)}

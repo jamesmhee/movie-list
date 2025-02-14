@@ -1,5 +1,5 @@
 interface Props {}
-const Video = ({id}: {id:string}) => {
+const Video = ({ id }: { id: string }) => {
     return (
         <iframe
             width="100%"
@@ -8,7 +8,7 @@ const Video = ({id}: {id:string}) => {
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"            
+            referrerPolicy="strict-origin-when-cross-origin"
         ></iframe>
     )
 }

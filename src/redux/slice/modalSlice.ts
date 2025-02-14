@@ -24,6 +24,14 @@ const modalSlice = createSlice({
             state.type = action.payload.type
             state.props = action.payload.props
         },
+        updateModal: (state, action: PayloadAction<Omit<ModalState, 'isOpen' | 'type'>>) => {
+            if (state.isOpen) {
+                state.props = {
+                    ...state.props,
+                    element: action.payload.props?.element,
+                }
+            }
+        },
         closeModal: (state) => {
             state.isOpen = false
             state.type = null
@@ -32,5 +40,5 @@ const modalSlice = createSlice({
     },
 })
 
-export const { openModal, closeModal } = modalSlice.actions
+export const { openModal, updateModal, closeModal } = modalSlice.actions
 export default modalSlice.reducer

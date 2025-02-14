@@ -27,7 +27,7 @@ const SwitchTheme = () => {
                     onChange={() => {}}
                     type="checkbox"
                     value="synthwave"
-                    className="toggle theme-controller bg-zinc-200"
+                    className="toggle theme-controller bg-zinc-200 h-[20px]"
                 />
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

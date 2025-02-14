@@ -5,20 +5,23 @@ import Button from '../Atoms/Button'
 import { MdExpandMore } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store/store'
-import { openModal } from '@/redux/slice/modalSlice'
+import { openModal, updateModal } from '@/redux/slice/modalSlice'
 import { UseMovieDetails } from '@/hooks/UseMovieDetails'
 import { useEffect } from 'react'
 import ModalMovie from './ModalMovie'
+import { useView } from '@/context/ViewContext'
 
 interface ItemsProps {
     detail: MovieResult
 }
 
 const Item = ({ detail }: ItemsProps) => {
+    const { setIsFromWatchlist } = useView()
     const dispatch = useDispatch<AppDispatch>()
-    const { mutateAsync, data, isPending, isSuccess } = UseMovieDetails()
+    const { mutateAsync } = UseMovieDetails()
 
     const handleModal = async () => {
+        setIsFromWatchlist(false)
         dispatch(
             openModal({
                 type: 'element',
@@ -31,8 +34,7 @@ const Item = ({ detail }: ItemsProps) => {
             const movieDetails = await mutateAsync(detail?.id)
             const movieData = movieDetails
             dispatch(
-                openModal({
-                    type: 'element',
+                updateModal({
                     props: {
                         element: <ModalMovie data={movieData} isLoading={false} />,
                     },
@@ -49,12 +51,14 @@ const Item = ({ detail }: ItemsProps) => {
             className="group hover:scale-110 hover:z-20 hover:delay-500 transition-transform ease-in-out duration-500 relative cursor-pointer w-full overflow-hidden"
         >
             <div className="hover:bg-white dark:hover:bg-zinc-800 hover:delay-500 transition-colors">
-                <div className="w-auto h-[200px] overflow-hidden rounded">
+                <div className="w-auto h-[250px] overflow-hidden rounded">
                     <Image
                         priority
+                        quality={100}
                         style={{
                             width: '100%',
                             height: '100%',
+                            objectFit: 'fill',
                             overflow: 'hidden',
                         }}
                         src={`${config.url.img + detail?.poster_path}`}

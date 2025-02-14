@@ -1,27 +1,11 @@
 import { RootState } from '@/redux/store/store'
+import { Detail } from '@/types/ModalMovie'
 import { ApiClient } from '@/utils/ApiClient'
 import { useSelector } from 'react-redux'
 
-export interface MovieResult {
-    adult: boolean
-    backdrop_path: string
-    genre_ids: number[]
-    id: number
-    original_language: string
-    original_title: string
-    overview: string
-    popularity: number
-    poster_path: string
-    release_date: string
-    title: string
-    video: boolean
-    vote_average: number
-    vote_count: number
-}
-
 interface MovieListResponse {
     page: number
-    results: MovieResult[]
+    results: Omit<Detail, "belongs_to_collection" | "budget" | "genres" | "homepage" | "imdb_id" | "origin_country" | "production_companies" | "production_countries" | "revenue" | "runtime" | "spoken_languages" | "status" | "tagline">
     total_pages: number
     total_results: number
 }

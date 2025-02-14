@@ -12,7 +12,7 @@ import { AppDispatch, RootState } from '@/redux/store/store'
 import { useEffect } from 'react'
 import { setCategory } from '@/redux/slice/movieSlice'
 import Modal from '../Molecules/Modal'
-import { openModal } from '@/redux/slice/modalSlice'
+import WatchlistButton from '../Molecules/WatchlistButton'
 
 const TabList: TabListProps[] = [
     {
@@ -55,6 +55,7 @@ const RenderType = () => {
                     )}
                 </div>
             </div>
+            <WatchlistButton/>
         </>
     )
 }

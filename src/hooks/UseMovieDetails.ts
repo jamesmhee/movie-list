@@ -10,7 +10,7 @@ export const UseMovieDetails = () => {
         mutationFn: async (movie_id: number) => {
             const actors = await GetCredits(movie_id)
             const trailer = await GetTrailer(movie_id)
-            const detail = await GetMovieDetail(movie_id)            
+            const detail = await GetMovieDetail(movie_id)
             const similar = await GetSimilar(movie_id)
             return { actors, trailer, detail, similar }
         },
