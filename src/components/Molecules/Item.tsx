@@ -18,7 +18,8 @@ const Item = ({ detail }: ItemsProps) => {
     const { setIsFromWatchlist } = useView()
     const dispatch = useDispatch<AppDispatch>()
     const { mutateAsync } = UseMovieDetails()
-    const imageSrc = detail?.id.toString().includes('ADD') ? detail?.poster_path : config?.url?.img! + detail?.poster_path    
+    const isCustom = detail?.id.toString().includes('ADD')
+    const imageSrc = isCustom ? detail?.poster_path : config?.url?.img! + detail?.poster_path    
 
     const handleModal = async () => {
         setIsFromWatchlist(false)
@@ -30,6 +31,18 @@ const Item = ({ detail }: ItemsProps) => {
                 },
             }),
         )
+
+        if(isCustom){
+            console.log('Custom')
+            dispatch({
+                type: 'element',
+                props: {
+                    element: <ModalMovie data={null} isLoading={false}/>
+                }
+            })
+            return
+        }
+
         try {
             const movieDetails = await mutateAsync(+detail?.id!)
             const movieData = movieDetails
