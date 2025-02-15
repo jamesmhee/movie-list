@@ -1,10 +1,10 @@
-import FormAdd from "@/components/Molecules/FormAdd"
+import FormAdd from '@/components/Molecules/FormAdd'
 
 interface Props {}
 const page = (props: Props) => {
     return (
         <div>
-            <FormAdd/>
+            <FormAdd />
         </div>
     )
 }

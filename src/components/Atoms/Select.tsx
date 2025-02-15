@@ -1,4 +1,4 @@
-interface SelectProps {
+interface SelectProps extends React.InputHTMLAttributes<HTMLSelectElement> {
     placeholder: string
     items: {
         name: string
@@ -7,9 +7,15 @@ interface SelectProps {
     onChange?: (e: any) => void
     className?: string
 }
-const Select = ({ placeholder, items, onChange, className }: SelectProps) => {
+
+const Select = ({ placeholder, items, onChange, className, ...props }: SelectProps) => {
     return (
-        <select onChange={onChange} defaultValue={placeholder} className={`select ${className}`}>
+        <select
+            {...props}
+            onChange={onChange}
+            defaultValue={placeholder}
+            className={`select ${className}`}
+        >
             <option disabled={true}>{placeholder}</option>
             {items?.map((item, index) => (
                 <option key={index} value={item?.value}>

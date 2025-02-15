@@ -6,7 +6,7 @@ import { ViewProvider } from '@/context/ViewContext'
 const Home = () => {
     return (
         <ViewProvider>
-            <div>            
+            <div>
                 <RenderType />
             </div>
         </ViewProvider>

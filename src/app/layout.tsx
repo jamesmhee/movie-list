@@ -6,6 +6,7 @@ import { ThemeProvider } from 'next-themes'
 import Navbar from '@/components/Organisms/Navbar'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { PersistGate } from 'redux-persist/integration/react'
+import Modal from '@/components/Molecules/Modal'
 
 const queryClient = new QueryClient()
 
@@ -15,19 +16,20 @@ export default function RootLayout({
     children: React.ReactNode
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning>            
-        <head>
-            <title>NETF*CK</title>            
-        </head>
+        <html lang="en" suppressHydrationWarning>
+            <head>
+                <title>NETFLICK</title>
+            </head>
             <body className={`antialiased scroll-smooth`}>
                 <QueryClientProvider client={queryClient}>
-                    <ThemeProvider>
+                    <ThemeProvider>                        
                         <Navbar />
                         <Provider store={store}>
+                            <Modal />
                             <PersistGate loading={null} persistor={persistor}>
                                 {children}
                             </PersistGate>
-                        </Provider>                        
+                        </Provider>
                     </ThemeProvider>
                 </QueryClientProvider>
             </body>

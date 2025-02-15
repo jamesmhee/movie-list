@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '../Atoms/Button'
 import { closeModal } from '@/redux/slice/modalSlice'
-import { isPending } from '@reduxjs/toolkit'
 
 const Modal = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -47,7 +46,7 @@ const Modal = () => {
                     {type === 'modal' ? (
                         <div className="p-5!">
                             <h3 className="font-bold text-lg">{props?.title}</h3>
-                            <p className="py-4">Press ESC key or click outside to close</p>
+                            <p className="py-4">{props?.text}</p>
                         </div>
                     ) : (
                         type === 'element' && <>{props?.element}</>

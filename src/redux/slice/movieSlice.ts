@@ -28,7 +28,7 @@ export const movieSlice = createSlice({
             state.movieList = action.payload.movieList
         },
         addMovieList: (state, action: PayloadAction<{ movie: AddMovie }>) => {
-            state.movieList = [...state.movieList, action.payload.movie]
+            state.movieList.push(action.payload.movie)
         },
         clearMovieList: (state) => {
             state.movieList = []
@@ -37,13 +37,13 @@ export const movieSlice = createSlice({
             if (!Array.isArray(state.watchList)) {
                 state.watchList = []
             }
-            if(state.watchList.find(e=>e.id === action.payload.movie.id)){
+            if (state.watchList.find((e) => e.id === action.payload.movie.id)) {
                 return
             }
 
             state.watchList.push(action.payload.movie)
         },
-        removeWatchList: (state, action: PayloadAction<{ movie: Detail }>) => {            
+        removeWatchList: (state, action: PayloadAction<{ movie: Detail }>) => {
             state.watchList = state.watchList.filter((item) => item.id !== action.payload.movie.id)
         },
     },

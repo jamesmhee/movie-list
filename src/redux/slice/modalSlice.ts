@@ -5,6 +5,7 @@ interface ModalState {
     type: 'modal' | 'element' | null
     props?: {
         title?: string
+        text?: string
         element?: React.JSX.Element | React.JSX.Element[]
     } | null
 }

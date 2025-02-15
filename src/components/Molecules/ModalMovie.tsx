@@ -14,7 +14,7 @@ import { openModal, updateModal } from '@/redux/slice/modalSlice'
 import { UseMovieDetails } from '@/hooks/UseMovieDetails'
 import { addWatchList, removeWatchList } from '@/redux/slice/movieSlice'
 import { useView } from '@/context/ViewContext'
-import { IoCaretBackOutline } from "react-icons/io5";
+import { IoCaretBackOutline } from 'react-icons/io5'
 import Watchlist from './Watchlist'
 import { ModalMovieData } from '@/types/ModalMovie'
 
@@ -28,13 +28,14 @@ const ModalMovie = ({ data, isLoading }: ModalMovieProps) => {
     const { mutateAsync } = UseMovieDetails()
     const { isFromWatchlist } = useView()
     const dispatch = useDispatch<AppDispatch>()
-    const { watchList } = useSelector((state: RootState)=>state.movie)
+    const { watchList } = useSelector((state: RootState) => state.movie)
 
-    const actors = data?.actors
-        ?.filter((item) => item?.known_for_department === 'Acting')
-        .map((item) => item?.name)
-        .join(', ')
-    
+    const actors =                 
+        data?.actors
+            ?.filter((item) => item?.known_for_department === 'Acting')
+            .map((item) => item?.name)
+            .join(', ')
+
     const formatDuration = (minutes: number) => {
         return Math.floor(minutes / 60) <= 0
             ? (minutes % 60) + ' นาที'
@@ -65,28 +66,34 @@ const ModalMovie = ({ data, isLoading }: ModalMovieProps) => {
         }
     }
 
-    const addWatchlist = () => {    
-        if(data?.detail) {
-            dispatch(addWatchList({
-                movie: data?.detail
-            }))
+    const addWatchlist = () => {
+        if (data?.detail) {
+            dispatch(
+                addWatchList({
+                    movie: data?.detail,
+                }),
+            )
         }
     }
 
-    const removeWatchlist = () =>{        
-        if(data?.detail){
-            dispatch(removeWatchList({
-                movie: data?.detail
-            }))
+    const removeWatchlist = () => {
+        if (data?.detail) {
+            dispatch(
+                removeWatchList({
+                    movie: data?.detail,
+                }),
+            )
         }
     }
 
-    const backtoWatchlist = () =>{
-        dispatch(updateModal({
-            props: {
-                element: <Watchlist/>
-            }
-        }))
+    const backtoWatchlist = () => {
+        dispatch(
+            updateModal({
+                props: {
+                    element: <Watchlist />,
+                },
+            }),
+        )
     }
 
     if (isLoading) {
@@ -146,26 +153,32 @@ const ModalMovie = ({ data, isLoading }: ModalMovieProps) => {
                                 {formatDuration(data?.detail?.runtime as number)}
                             </p>
                         </div>
-                        {
-                            watchList?.find(e=>e.id === data?.detail?.id) ? 
+                        {watchList?.find((e) => e.id === data?.detail?.id) ? (
                             <>
-                            <Button icon={<FaCheck/>} onClick={removeWatchlist} className='absolute bottom-3 right-3 p-1!'>                                
-                                Watchlisted
-                            </Button>
-                            </> :
-                            <Button onClick={addWatchlist} className="absolute bottom-3 right-3 p-1!">                            
+                                <Button
+                                    icon={<FaCheck />}
+                                    onClick={removeWatchlist}
+                                    className="absolute bottom-3 right-3 p-1!"
+                                >
+                                    Watchlisted
+                                </Button>
+                            </>
+                        ) : (
+                            <Button
+                                onClick={addWatchlist}
+                                className="absolute bottom-3 right-3 p-1!"
+                            >
                                 + Watchlist
                             </Button>
-                        }
-                        {
-                            isFromWatchlist &&
+                        )}
+                        {isFromWatchlist && (
                             <Button
                                 onClick={backtoWatchlist}
-                                className='absolute btn-circle z-[999] p-2! top-6 left-3'
+                                className="absolute btn-circle z-[999] p-2! top-6 left-3"
                             >
-                                <IoCaretBackOutline className='text-lg'/>
+                                <IoCaretBackOutline className="text-lg" />
                             </Button>
-                        }
+                        )}
                         <Button
                             onClick={() => setIsTrailer(true)}
                             className="absolute z-[999] top-[33%] p-5! md:top-44 left-[44%] md:left-[46.5%]"

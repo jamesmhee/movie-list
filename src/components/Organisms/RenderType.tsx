@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store/store'
 import { useEffect } from 'react'
 import { setCategory } from '@/redux/slice/movieSlice'
-import Modal from '../Molecules/Modal'
 import WatchlistButton from '../Molecules/WatchlistButton'
 
 const TabList: TabListProps[] = [
@@ -30,7 +29,7 @@ const RenderType = () => {
     const dispatch = useDispatch<AppDispatch>()
     const { category } = useSelector((state: RootState) => state.movie)
     const { movieList } = useSelector((state: RootState) => state.movie)
-    const { data, isLoading, isError, error } = UseCategory(category?.length <= 0)
+    const { data } = UseCategory(category?.length <= 0)
 
     useEffect(() => {
         if (data) {
@@ -39,23 +38,30 @@ const RenderType = () => {
     }, [data])
 
     return (
-        <>
-            <Modal />
+        <>            
             <div className="w-full flex justify-end pr-5! pt-3!">
                 <Tabs tabList={TabList} />
             </div>
             <div className="w-full p-5!">
                 <div className="border-2 border-zinc-100 dark:border-zinc-900 rounded-2xl h-full p-2!">
                     {view === 'grid' ? (
-                        category?.map((elm, index) => (
-                            <Gridview key={index} name={elm?.name} id={elm?.id} />
-                        ))
+                        <>
+                        {
+                            (Array.isArray(movieList) && movieList?.length > 0) &&
+                            <Gridview name="Custom" id={'ADD'} /> 
+                        }
+                        {
+                            category?.map((elm, index) => (
+                                <Gridview key={index} name={elm?.name} id={elm?.id} />
+                            ))
+                        }
+                        </>
                     ) : (
                         <CustomTable />
                     )}
                 </div>
             </div>
-            <WatchlistButton/>
+            <WatchlistButton />
         </>
     )
 }

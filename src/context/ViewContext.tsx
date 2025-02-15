@@ -18,7 +18,7 @@ export const ViewProvider = ({ children }: { children: React.JSX.Element }) => {
                 view,
                 setView,
                 isFromWatchlist,
-                setIsFromWatchlist
+                setIsFromWatchlist,
             }}
         >
             {children}

@@ -2,11 +2,10 @@ import Image from 'next/image'
 import { config } from '@/utils/config'
 import Button from '../Atoms/Button'
 import { MdExpandMore } from 'react-icons/md'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '@/redux/store/store'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/redux/store/store'
 import { openModal, updateModal } from '@/redux/slice/modalSlice'
 import { UseMovieDetails } from '@/hooks/UseMovieDetails'
-import { useEffect } from 'react'
 import ModalMovie from './ModalMovie'
 import { useView } from '@/context/ViewContext'
 import { DetailShort } from '@/types/ModalMovie'
@@ -15,10 +14,11 @@ interface ItemsProps {
     detail: DetailShort
 }
 
-const Item = ({ detail }: ItemsProps) => {
+const Item = ({ detail }: ItemsProps) => {    
     const { setIsFromWatchlist } = useView()
     const dispatch = useDispatch<AppDispatch>()
     const { mutateAsync } = UseMovieDetails()
+    const imageSrc = detail?.id.toString().includes('ADD') ? detail?.poster_path : config?.url?.img! + detail?.poster_path    
 
     const handleModal = async () => {
         setIsFromWatchlist(false)
@@ -31,7 +31,7 @@ const Item = ({ detail }: ItemsProps) => {
             }),
         )
         try {
-            const movieDetails = await mutateAsync(detail?.id!)
+            const movieDetails = await mutateAsync(+detail?.id!)
             const movieData = movieDetails
             dispatch(
                 updateModal({
@@ -61,7 +61,7 @@ const Item = ({ detail }: ItemsProps) => {
                             objectFit: 'fill',
                             overflow: 'hidden',
                         }}
-                        src={`${config?.url?.img! + detail?.poster_path}`}
+                        src={imageSrc}
                         width={500}
                         height={500}
                         alt={detail?.title!}
