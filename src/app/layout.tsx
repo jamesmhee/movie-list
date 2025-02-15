@@ -7,6 +7,7 @@ import Navbar from '@/components/Organisms/Navbar'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { PersistGate } from 'redux-persist/integration/react'
 import Modal from '@/components/Molecules/Modal'
+import { ViewProvider } from '@/context/ViewContext'
 
 const queryClient = new QueryClient()
 
@@ -25,10 +26,12 @@ export default function RootLayout({
                     <ThemeProvider>                        
                         <Navbar />
                         <Provider store={store}>
-                            <Modal />
-                            <PersistGate loading={null} persistor={persistor}>
-                                {children}
-                            </PersistGate>
+                            <ViewProvider>
+                                <PersistGate loading={null} persistor={persistor}>
+                                <Modal />
+                                    {children}
+                                </PersistGate>
+                            </ViewProvider>
                         </Provider>
                     </ThemeProvider>
                 </QueryClientProvider>

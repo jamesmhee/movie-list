@@ -47,7 +47,7 @@ const Watchlist = () => {
                         {watchList?.map((list, index) => (
                             <Card
                                 key={list?.id}
-                                onClick={() => handleSimilar(list?.id)}
+                                onClick={() => handleSimilar(+list?.id)}
                                 item={list}
                             />
                         ))}
