@@ -13,7 +13,7 @@ const Card = ({ onClick, item }: { onClick: () => void; item: any }) => {
                 style={{
                     width: '100%',
                     height: '100%',
-                    maxHeight: '220px',
+                    minHeight: '220px',
                     objectFit: 'fill',
                 }}
                 src={imgSrc}
