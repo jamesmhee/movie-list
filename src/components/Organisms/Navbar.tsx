@@ -35,6 +35,11 @@ const Navbar = () => {
                 </Button>
             </div>
             <div
+            onClick={()=>setIsShow(false)}
+            className={`z-20 fixed top-0 left-0 h-full w-full bg-base-100/50 shadow-lg transform ${isShow ? 'translate-x-0' : 'translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out md:relative md:transform-none md:w-auto md:bg-transparent md:shadow-none md:flex items-center gap-2`}
+            >
+            </div>
+            <div
                 className={`z-20 fixed top-0 right-[-2px] h-full w-64 bg-base-300 shadow-lg transform ${isShow ? 'translate-x-0' : 'translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out md:relative md:transform-none md:w-auto md:bg-transparent md:shadow-none md:flex items-center gap-2`}
             >
                 <Button
