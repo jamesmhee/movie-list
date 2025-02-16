@@ -14,8 +14,8 @@ const Watchlist = () => {
     const { setIsFromWatchlist } = useView()
     const handleSimilar = async (movie_id: string) => {
         setIsFromWatchlist(true)
-        
-        const findCustom: AddMovie = movieList.find(e=>e?.id === movie_id) || null
+
+        const findCustom: AddMovie | null = movieList.find(e=>e?.id === movie_id) || null
         if(movie_id.toString().includes('ADD')){
             const formatDataForComponent = {
                 detail: findCustom as Detail,

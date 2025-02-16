@@ -50,12 +50,10 @@ export type DetailShort = Omit<
     | 'tagline'
 >
 
-export interface AddMovieInterface extends DetailShort {
+export interface AddMovie extends DetailShort {
     actors?: Actor[]
     runtime?: number
 }
-
-export type AddMovie = AddMovieInterface | null
 
 export interface Detail {
     adult?: boolean
