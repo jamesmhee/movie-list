@@ -200,6 +200,7 @@ const ModalMovie = ({ data, isLoading, isCustom }: ModalMovieProps) => {
             <div className="w-full p-3! flex flex-col gap-3">
                 <div className="flex md:flex-row flex-col gap-2">
                     <div className="flex-1 flex gap-x-2 h-max gap-y-2 flex-wrap">
+                        {isCustom && <Badge className='badge-neutral p-2!' text="Custom Movie"/>}
                         {data?.detail?.genres?.map((genre, index) => (
                             <span key={genre?.name}>
                                 <Badge className={'badge-neutral p-2!'} text={genre?.name} />
@@ -226,18 +227,22 @@ const ModalMovie = ({ data, isLoading, isCustom }: ModalMovieProps) => {
                         </Button>
                     )}
                 </div>
-                <div className="space-x-2!">
-                    <p className="font-semibold text-zinc-400 text-lg">Related Movies</p>
-                    <div className="grid grid-flow-col auto-cols-[200px] auto-rows-max gap-2 overflow-auto">
-                        {data?.similar?.results?.map((item, index) => (
-                            <Card
-                                key={item?.id}
-                                onClick={() => handleSimilar(item?.id)}
-                                item={item}
-                            />
-                        ))}
+                {
+                    !isCustom && 
+                    <div className="space-x-2!">
+                        <p className="font-semibold text-zinc-400 text-lg">Related Movies</p>
+                        <div className="grid grid-flow-col auto-cols-[200px] auto-rows-max gap-2 overflow-auto">
+                            {data?.similar?.results?.map((item, index) => (
+                                <Card
+                                    key={item?.id}
+                                    onClick={() => handleSimilar(item?.id)}
+                                    item={item}
+                                />
+                            ))}
+                        </div>
                     </div>
-                </div>
+                }
+                
             </div>
         </div>
     )
