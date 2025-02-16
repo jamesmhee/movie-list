@@ -2,9 +2,8 @@ import { Result } from '@/types/ModalMovie';
 import { config } from '@/utils/config'
 import Image from 'next/image'
 
-const Card = ({ onClick, item }: { onClick: () => void; item: any }) => {
-    console.log(item)
-    const imgSrc = item?.id.toString().includes('ADD') ? item?.poster_path : config?.url?.img + item?.poster_path
+const Card = ({ onClick, item }: { onClick: () => void; item: any }) => {    
+    const imgSrc = item?.id.toString().includes('ADD') ? item?.poster_path : config?.url?.img + (item?.poster_path || item?.backdrop_path)
     return (
         <div onClick={onClick} className="flex flex-col cursor-pointer">
             <Image

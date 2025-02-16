@@ -30,7 +30,7 @@ const ModalMovie = ({ data, isLoading, isCustom }: ModalMovieProps) => {
     const { isFromWatchlist } = useView()
     const imgSrc = isCustom
         ? data?.detail?.backdrop_path!
-        : config.url.img! + data?.detail?.backdrop_path
+        : config.url.img! + (data?.detail?.backdrop_path || data?.detail?.poster_path)
     const dispatch = useDispatch<AppDispatch>()
     const { watchList } = useSelector((state: RootState) => state.movie)
 
