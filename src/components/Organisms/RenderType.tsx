@@ -38,7 +38,7 @@ const RenderType = () => {
     }, [data])
 
     return (
-        <>            
+        <>
             <div className="w-full flex justify-end pr-5! pt-3!">
                 <Tabs tabList={TabList} />
             </div>
@@ -46,15 +46,12 @@ const RenderType = () => {
                 <div className="border-2 border-zinc-100 dark:border-zinc-900 rounded-2xl h-full p-2!">
                     {view === 'grid' ? (
                         <>
-                        {
-                            (Array.isArray(movieList) && movieList?.length > 0) &&
-                            <Gridview name="Custom" id={'ADD'} /> 
-                        }
-                        {
-                            category?.map((elm, index) => (
+                            {Array.isArray(movieList) && movieList?.length > 0 && (
+                                <Gridview name="Custom" id={'ADD'} />
+                            )}
+                            {category?.map((elm, index) => (
                                 <Gridview key={index} name={elm?.name} id={elm?.id} />
-                            ))
-                        }
+                            ))}
                         </>
                     ) : (
                         <CustomTable />

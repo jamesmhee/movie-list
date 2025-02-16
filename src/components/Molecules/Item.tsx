@@ -8,18 +8,18 @@ import { openModal, updateModal } from '@/redux/slice/modalSlice'
 import { UseMovieDetails } from '@/hooks/UseMovieDetails'
 import ModalMovie from './ModalMovie'
 import { useView } from '@/context/ViewContext'
-import { DetailShort } from '@/types/ModalMovie'
+import { AddMovie, Detail, DetailShort } from '@/types/ModalMovie'
 
 interface ItemsProps {
-    detail: DetailShort
+    detail: AddMovie
 }
 
-const Item = ({ detail }: ItemsProps) => {    
+const Item = ({ detail }: ItemsProps) => {
     const { setIsFromWatchlist } = useView()
     const dispatch = useDispatch<AppDispatch>()
     const { mutateAsync } = UseMovieDetails()
     const isCustom = detail?.id.toString().includes('ADD')
-    const imageSrc = isCustom ? detail?.poster_path : config?.url?.img! + detail?.poster_path    
+    const imageSrc = isCustom ? detail?.poster_path! : config.url?.img! + detail?.poster_path
 
     const handleModal = async () => {
         setIsFromWatchlist(false)
@@ -32,14 +32,27 @@ const Item = ({ detail }: ItemsProps) => {
             }),
         )
 
-        if(isCustom){
-            console.log('Custom')
-            dispatch({
-                type: 'element',
-                props: {
-                    element: <ModalMovie data={null} isLoading={false}/>
-                }
-            })
+        if (isCustom) {
+            const formatDataForComponent = {
+                detail: detail as Detail,
+                actors: detail?.actors,
+                trailer: undefined,
+                similar: undefined,
+            }
+            dispatch(
+                openModal({
+                    type: 'element',
+                    props: {
+                        element: (
+                            <ModalMovie
+                                data={formatDataForComponent}
+                                isLoading={false}
+                                isCustom={true}
+                            />
+                        ),
+                    },
+                }),
+            )
             return
         }
 

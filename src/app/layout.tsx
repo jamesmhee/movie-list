@@ -23,12 +23,12 @@ export default function RootLayout({
             </head>
             <body className={`antialiased scroll-smooth`}>
                 <QueryClientProvider client={queryClient}>
-                    <ThemeProvider>                        
+                    <ThemeProvider>
                         <Navbar />
                         <Provider store={store}>
                             <ViewProvider>
                                 <PersistGate loading={null} persistor={persistor}>
-                                <Modal />
+                                    <Modal />
                                     {children}
                                 </PersistGate>
                             </ViewProvider>

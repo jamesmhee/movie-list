@@ -1,8 +1,8 @@
 export interface ModalMovieData {
-    actors: Actor[]
-    trailer: Trailer | null
+    actors?: Actor[]
+    trailer?: Trailer | null
     detail: Detail
-    similar: Similar
+    similar?: Similar
 }
 
 export interface Actor {
@@ -50,10 +50,15 @@ export type DetailShort = Omit<
     | 'tagline'
 >
 
-export type AddMovie = DetailShort
+export interface AddMovieInterface extends DetailShort {
+    actors?: Actor[]
+    runtime?: number
+}
+
+export type AddMovie = AddMovieInterface | null
 
 export interface Detail {
-    adult: boolean
+    adult?: boolean
     backdrop_path: string
     belongs_to_collection: BelongsToCollection
     budget: number
@@ -120,14 +125,14 @@ export interface Similar {
 
 export interface Result {
     adult: boolean
-    backdrop_path?: string
+    backdrop_path: string
     genre_ids: number[]
     id: number
     original_language: string
     original_title: string
     overview: string
     popularity: number
-    poster_path?: string
+    poster_path: string
     release_date: string
     title: string
     video: boolean

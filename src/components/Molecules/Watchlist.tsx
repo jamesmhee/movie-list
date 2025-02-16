@@ -5,14 +5,33 @@ import { openModal, updateModal } from '@/redux/slice/modalSlice'
 import ModalMovie from './ModalMovie'
 import { UseMovieDetails } from '@/hooks/UseMovieDetails'
 import { useView } from '@/context/ViewContext'
+import { AddMovie, Detail } from '@/types/ModalMovie'
 
 const Watchlist = () => {
     const { mutateAsync } = UseMovieDetails()
     const dispatch = useDispatch<AppDispatch>()
-    const { watchList } = useSelector((state: RootState) => state.movie)
+    const { watchList, movieList } = useSelector((state: RootState) => state.movie)
     const { setIsFromWatchlist } = useView()
-    const handleSimilar = async (movie_id: number) => {
+    const handleSimilar = async (movie_id: string) => {
         setIsFromWatchlist(true)
+        
+        const findCustom: AddMovie = movieList.find(e=>e?.id === movie_id) || null
+        if(movie_id.toString().includes('ADD')){
+            const formatDataForComponent = {
+                detail: findCustom as Detail,
+                actors: findCustom?.actors,
+                trailer: undefined,
+                similar: undefined,
+            }
+            dispatch(openModal({
+                type: 'element',
+                props: {
+                    element: <ModalMovie data={formatDataForComponent} isLoading={false} isCustom/>
+                }
+            }))
+            return
+        }
+
         dispatch(
             openModal({
                 type: 'element',
@@ -22,7 +41,7 @@ const Watchlist = () => {
             }),
         )
         try {
-            const movieDetails = await mutateAsync(movie_id)
+            const movieDetails = await mutateAsync(+movie_id)
             const movieData = movieDetails
             dispatch(
                 updateModal({
@@ -47,7 +66,7 @@ const Watchlist = () => {
                         {watchList?.map((list, index) => (
                             <Card
                                 key={list?.id}
-                                onClick={() => handleSimilar(+list?.id)}
+                                onClick={() => handleSimilar(list?.id.toString())}
                                 item={list}
                             />
                         ))}

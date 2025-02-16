@@ -21,20 +21,25 @@ import { ModalMovieData } from '@/types/ModalMovie'
 interface ModalMovieProps {
     data: ModalMovieData | null
     isLoading: boolean
+    isCustom?: boolean
 }
-const ModalMovie = ({ data, isLoading }: ModalMovieProps) => {
+const ModalMovie = ({ data, isLoading, isCustom }: ModalMovieProps) => {
     const [isTrailer, setIsTrailer] = useState(false)
     const [isActMore, setIsActMore] = useState(false)
     const { mutateAsync } = UseMovieDetails()
     const { isFromWatchlist } = useView()
+    const imgSrc = isCustom
+        ? data?.detail?.backdrop_path!
+        : config.url.img! + data?.detail?.backdrop_path
     const dispatch = useDispatch<AppDispatch>()
     const { watchList } = useSelector((state: RootState) => state.movie)
 
-    const actors =                 
-        data?.actors
-            ?.filter((item) => item?.known_for_department === 'Acting')
-            .map((item) => item?.name)
-            .join(', ')
+    const actors = isCustom
+        ? data?.actors?.map((item) => item?.name).join(', ')
+        : data?.actors
+              ?.filter((item) => item?.known_for_department === 'Acting')
+              .map((item) => item?.name)
+              .join(', ')
 
     const formatDuration = (minutes: number) => {
         return Math.floor(minutes / 60) <= 0
@@ -43,6 +48,8 @@ const ModalMovie = ({ data, isLoading }: ModalMovieProps) => {
     }
 
     const handleSimilar = async (movie_id: number) => {
+        if (isCustom) return
+
         dispatch(
             openModal({
                 type: 'element',
@@ -133,7 +140,7 @@ const ModalMovie = ({ data, isLoading }: ModalMovieProps) => {
                                 maxHeight: '400px',
                                 objectFit: 'cover',
                             }}
-                            src={`${config.url.img! + data?.detail?.backdrop_path}`}
+                            src={imgSrc}
                             width={500}
                             height={500}
                             alt={data?.detail?.title as string}
@@ -147,7 +154,7 @@ const ModalMovie = ({ data, isLoading }: ModalMovieProps) => {
                                 {data?.detail?.title} ({data?.detail?.release_date?.split('-')[0]})
                             </h2>
                             <div className="text-zinc-100 font-semibold inline-flex items-center gap-2">
-                                <PiStarFill /> {data?.detail?.vote_average.toFixed(2)} / 10
+                                <PiStarFill /> {data?.detail?.vote_average?.toFixed(2)} / 10
                             </div>
                             <p className="font-semibold text-zinc-100">
                                 {formatDuration(data?.detail?.runtime as number)}
@@ -179,12 +186,14 @@ const ModalMovie = ({ data, isLoading }: ModalMovieProps) => {
                                 <IoCaretBackOutline className="text-lg" />
                             </Button>
                         )}
-                        <Button
-                            onClick={() => setIsTrailer(true)}
-                            className="absolute z-[999] top-[33%] p-5! md:top-44 left-[44%] md:left-[46.5%]"
-                        >
-                            <FaPlay />
-                        </Button>
+                        {data?.trailer?.key && (
+                            <Button
+                                onClick={() => setIsTrailer(true)}
+                                className="absolute z-[999] top-[33%] p-5! md:top-44 left-[44%] md:left-[46.5%]"
+                            >
+                                <FaPlay />
+                            </Button>
+                        )}
                     </>
                 )}
             </div>

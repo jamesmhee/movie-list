@@ -7,7 +7,6 @@ import { addMovieList } from '@/redux/slice/movieSlice'
 import { z } from 'zod'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import Select from '../Atoms/Select'
 import { imageToBase64 } from '@/utils/image'
 import { openModal } from '@/redux/slice/modalSlice'
 
@@ -31,22 +30,33 @@ const FormSchema = z.object({
         .min(1, 'Duration must be 1 or more than.')
         .transform((val) => Number(val))
         .refine((val) => val > 0, 'Duration must be 1 or more than.'),
-    actors: z.array(
-        z.object({
-            id: z.string(),
-            name: z.string().min(1, 'Name must be more than 1 characters.'),            
-        })
-    ).min(1, 'Actors must be more than 1 name.').max(5, 'Actors must be not over 5 name/'),
+    actors: z
+        .array(
+            z.object({
+                id: z.number(),
+                name: z.string().min(1, 'Name must be more than 1 characters.'),
+                adult: z.boolean(),
+                gender: z.number(),
+                known_for_department: z.string(),
+                original_name: z.string(),
+                popularity: z.number(),
+                cast_id: z.number(),
+                character: z.string(),
+                credit_id: z.string(),
+                order: z.number(),
+            }),
+        )
+        .min(1, 'Actors must be more than 1 name.')
+        .max(5, 'Actors must be not over 5 name/'),
     synopsis: z
         .string()
         .min(5, 'Synopsis must be length more than 5')
         .max(2000, 'Synopsis must be not over 2000 characters.'),
     rating: z
         .string()
-        .min(1, 'Rating must be 1 - 10')
-        .max(2, 'Raiting must be 1- 10')
-        .transform((val) => Number(val))
-        .refine((val) => val >= 1 && val <= 10, 'Raiting must be 1 - 10'),
+        .min(1, 'Rating must be 1 - 10.')
+        .refine((val) => parseFloat(val) >= 1 && parseFloat(val) <= 10, 'Raiting must be 1 - 10')
+        .transform((val) => parseFloat(val)),
     poster: z
         .custom<FileList>(
             (files) => files instanceof FileList && files?.length > 0,
@@ -59,16 +69,16 @@ const FormSchema = z.object({
             ),
         ),
     backdrop: z
-    .custom<FileList>(
-        (files) => files instanceof FileList && files?.length > 0,
-        'Please upload backdrop image.',
-    )
-    .refine((files: FileList) =>
-        Array.from(files).every(
-            (file) => file.size <= 5 * 1024 * 1024,
-            'Backdrop must be not over 5 mb.',
+        .custom<FileList>(
+            (files) => files instanceof FileList && files?.length > 0,
+            'Please upload backdrop image.',
+        )
+        .refine((files: FileList) =>
+            Array.from(files).every(
+                (file) => file.size <= 5 * 1024 * 1024,
+                'Backdrop must be not over 5 mb.',
+            ),
         ),
-    ),     
 })
 
 type FormData = z.infer<typeof FormSchema>
@@ -77,31 +87,42 @@ const FormAdd = () => {
     const dispatch = useDispatch<AppDispatch>()
     const {
         register,
-        handleSubmit,                
+        handleSubmit,
         reset,
         control,
-        formState: { errors, isSubmitting },        
+        formState: { errors, isSubmitting },
     } = useForm<FormData>({
         defaultValues: {
-            actors: [{
-                id: new Date().getTime().toString(),
-                name: '',                
-            }]
+            actors: [
+                {
+                    id: new Date().getTime(),
+                    name: '',
+                    adult: false,
+                    gender: 0,
+                    known_for_department: 'Acting',
+                    original_name: '',
+                    popularity: 0,
+                    cast_id: 0,
+                    character: '',
+                    credit_id: '',
+                    order: 0,
+                },
+            ],
         },
         resolver: zodResolver(FormSchema),
-        mode: 'all',        
+        mode: 'all',
     })
 
     const { fields, append, remove } = useFieldArray({
         control,
-        name: 'actors'
-      });
+        name: 'actors',
+    })
 
-    const onSubmit = async (data: FormData) => {                
+    const onSubmit = async (data: FormData) => {
         const format = {
             id: `ADD-${new Date().getTime()}`,
             adult: false,
-            title: data?.title,                
+            title: data?.title,
             original_language: '',
             original_title: '',
             overview: data?.synopsis,
@@ -111,29 +132,37 @@ const FormAdd = () => {
             backdrop_path: await imageToBase64(data?.backdrop[0]),
             video: false,
             vote_average: data?.rating,
-            vote_count: 0
+            vote_count: 0,
+            actors: data?.actors,
+            runtime: data?.duration,
         }
-        try{
-            dispatch(addMovieList({
-                movie: format
-            }))
-            dispatch(openModal({
-                type: "modal",
-                props: {
-                    title: "Alert",
-                    text: "Added movie successful."
-                }
-            }))
-            reset()
-        }catch(error){
-            if(error instanceof Error){
-                dispatch(openModal({
-                    type: "modal",
+        try {
+            dispatch(
+                addMovieList({
+                    movie: format,
+                }),
+            )
+            dispatch(
+                openModal({
+                    type: 'modal',
                     props: {
-                        title: "Alert",
-                        text: error.message
-                    }
-                }))
+                        title: 'Alert',
+                        text: 'Added movie successful.',
+                    },
+                }),
+            )
+            reset()
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(
+                    openModal({
+                        type: 'modal',
+                        props: {
+                            title: 'Alert',
+                            text: error.message,
+                        },
+                    }),
+                )
             }
         }
     }
@@ -175,28 +204,48 @@ const FormAdd = () => {
                     <label htmlFor="actors">Actors</label>
                     {fields.map((field, index) => (
                         <div key={field.id} className="flex flex-col gap-2">
-                            <div className='flex items-center w-full'>
+                            <div className="flex items-center w-full">
                                 <InputField
-                                    type="text"                                                        
+                                    type="text"
                                     {...register(`actors.${index}.name`)}
                                     placeholder={`Actor ${index + 1}`}
                                     className={`px-2! w-full ${errors?.actors?.[index]?.message && 'border-rose-700'}`}
                                 />
                                 {fields.length > 1 && (
-                                    <Button                                
-                                    onClick={() => remove(index)}
-                                    className="text-red-500 btn-ghost p-1! py-0!"
+                                    <Button
+                                        onClick={() => remove(index)}
+                                        className="text-red-500 btn-ghost p-1! py-0!"
                                     >
-                                    ✖
-                                </Button>
+                                        ✖
+                                    </Button>
                                 )}
                             </div>
-                            {errors?.actors?.[index]?.name && <p>{errors.actors[index]?.name?.message}</p>}
+                            {errors?.actors?.[index]?.name && (
+                                <p>{errors.actors[index]?.name?.message}</p>
+                            )}
                         </div>
                     ))}
-                    <Button onClick={() => fields.length < 5 && append({id: new Date().getTime().toString(), name: ''})} className="btn-neutral text-white px-4 py-2 rounded">
+                    <Button
+                        onClick={() =>
+                            fields.length < 5 &&
+                            append({
+                                id: new Date().getTime(),
+                                name: '',
+                                adult: false,
+                                gender: 0,
+                                known_for_department: 'Acting',
+                                original_name: '',
+                                popularity: 0,
+                                cast_id: 0,
+                                character: '',
+                                credit_id: '',
+                                order: 0,
+                            })
+                        }
+                        className="btn-neutral text-white px-4 py-2 rounded"
+                    >
                         + Add Actor
-                    </Button>                    
+                    </Button>
                     <label htmlFor="synopsis">Synopsis</label>
                     <InputField
                         {...register('synopsis')}
@@ -220,7 +269,7 @@ const FormAdd = () => {
                         {...register('poster')}
                         type="file"
                         name="poster"
-                        placeholder="Poster"                        
+                        placeholder="Poster"
                         className={`file-input! w-full! ${errors?.poster?.message && 'border-rose-700!'}`}
                         accept="image/jpg, image/png, image/jpeg"
                     />
@@ -230,12 +279,18 @@ const FormAdd = () => {
                         {...register('backdrop')}
                         type="file"
                         name="backdrop"
-                        placeholder="Backdrop"                        
+                        placeholder="Backdrop"
                         className={`file-input! w-full! ${errors?.backdrop?.message && 'border-rose-700!'}`}
                         accept="image/jpg, image/png, image/jpeg"
                     />
-                    {errors?.backdrop && <p>{errors?.backdrop?.message}</p>}                    
-                    <Button className='btn-neutral' type="submit" disabled={isSubmitting ? true : false}>Add</Button>
+                    {errors?.backdrop && <p>{errors?.backdrop?.message}</p>}
+                    <Button
+                        className="btn-neutral"
+                        type="submit"
+                        disabled={isSubmitting ? true : false}
+                    >
+                        Add
+                    </Button>
                 </form>
             </div>
         </div>

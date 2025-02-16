@@ -2,10 +2,10 @@
 import RenderType from '@/components/Organisms/RenderType'
 
 const Home = () => {
-    return (        
+    return (
         <div>
             <RenderType />
-        </div>        
+        </div>
     )
 }
 export default Home
