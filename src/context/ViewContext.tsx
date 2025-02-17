@@ -10,7 +10,7 @@ interface ViewContextProps {
 export const CreateViewContext = createContext<ViewContextProps>({} as ViewContextProps)
 
 export const ViewProvider = ({ children }: { children: React.JSX.Element }) => {
-    const [view, setView] = useState<'grid' | 'table'>('table')
+    const [view, setView] = useState<'grid' | 'table'>('grid')
     const [isFromWatchlist, setIsFromWatchlist] = useState(false)
     return (
         <CreateViewContext
