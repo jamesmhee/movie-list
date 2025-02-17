@@ -1,7 +1,7 @@
 import { DetailShort } from '@/types/ModalMovie'
 import { ApiClient } from '@/utils/ApiClient'
 
-interface MovieListResponse {
+export interface MovieListResponse {
     page: number
     results: DetailShort[]
     total_pages: number

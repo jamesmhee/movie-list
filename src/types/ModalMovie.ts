@@ -55,6 +55,11 @@ export interface AddMovie extends DetailShort {
     runtime?: number
 }
 
+export type TableDetail = Pick<
+    Result,
+    'id' | 'title' | 'poster_path' | 'genre_ids' | 'release_date' | 'vote_average'
+>
+
 export interface Detail {
     adult?: boolean
     backdrop_path: string

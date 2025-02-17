@@ -1,11 +1,11 @@
 import { CategoryProps } from '@/services/GetCategory'
-import { AddMovie, Detail, DetailShort } from '@/types/ModalMovie'
+import { AddMovie, Detail, DetailShort, TableDetail } from '@/types/ModalMovie'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface MovieState {
     category: CategoryProps[]
     movieList: DetailShort[]
-    watchList: Detail[]
+    watchList: (number | string)[]
 }
 
 const initialState: MovieState = {
@@ -33,18 +33,18 @@ export const movieSlice = createSlice({
         clearMovieList: (state) => {
             state.movieList = []
         },
-        addWatchList: (state, action: PayloadAction<{ movie: Detail }>) => {
+        addWatchList: (state, action: PayloadAction<{ movieId: string | number }>) => {
             if (!Array.isArray(state.watchList)) {
                 state.watchList = []
             }
-            if (state.watchList.find((e) => e.id === action.payload.movie.id)) {
+            if (state.watchList.find((e) => e === action.payload.movieId)) {
                 return
             }
 
-            state.watchList.push(action.payload.movie)
+            state.watchList.push(action.payload.movieId)
         },
-        removeWatchList: (state, action: PayloadAction<{ movie: Detail }>) => {
-            state.watchList = state.watchList.filter((item) => item.id !== action.payload.movie.id)
+        removeWatchList: (state, action: PayloadAction<{ movieId: string | number }>) => {
+            state.watchList = state.watchList.filter((item) => item !== action.payload.movieId)
         },
     },
 })

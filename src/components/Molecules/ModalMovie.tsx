@@ -16,6 +16,7 @@ import { addWatchList, removeWatchList } from '@/redux/slice/movieSlice'
 import { useView } from '@/context/ViewContext'
 import { IoCaretBackOutline } from 'react-icons/io5'
 import Watchlist from './Watchlist'
+import { formatDuration } from '@/utils/date'
 import { ModalMovieData } from '@/types/ModalMovie'
 
 interface ModalMovieProps {
@@ -40,12 +41,6 @@ const ModalMovie = ({ data, isLoading, isCustom }: ModalMovieProps) => {
               ?.filter((item) => item?.known_for_department === 'Acting')
               .map((item) => item?.name)
               .join(', ')
-
-    const formatDuration = (minutes: number) => {
-        return Math.floor(minutes / 60) <= 0
-            ? (minutes % 60) + ' นาที'
-            : Math.floor(minutes / 60) + ' ชั่วโมง ' + (minutes % 60) + ' นาที'
-    }
 
     const handleSimilar = async (movie_id: number) => {
         if (isCustom) return
@@ -77,7 +72,7 @@ const ModalMovie = ({ data, isLoading, isCustom }: ModalMovieProps) => {
         if (data?.detail) {
             dispatch(
                 addWatchList({
-                    movie: data?.detail,
+                    movieId: data?.detail?.id,
                 }),
             )
         }
@@ -87,7 +82,7 @@ const ModalMovie = ({ data, isLoading, isCustom }: ModalMovieProps) => {
         if (data?.detail) {
             dispatch(
                 removeWatchList({
-                    movie: data?.detail,
+                    movieId: data?.detail?.id,
                 }),
             )
         }
@@ -160,7 +155,7 @@ const ModalMovie = ({ data, isLoading, isCustom }: ModalMovieProps) => {
                                 {formatDuration(data?.detail?.runtime as number)}
                             </p>
                         </div>
-                        {watchList?.find((e) => e.id === data?.detail?.id) ? (
+                        {watchList?.find((item) => item === data?.detail?.id) ? (
                             <>
                                 <Button
                                     icon={<FaCheck />}
@@ -200,7 +195,7 @@ const ModalMovie = ({ data, isLoading, isCustom }: ModalMovieProps) => {
             <div className="w-full p-3! flex flex-col gap-3">
                 <div className="flex md:flex-row flex-col gap-2">
                     <div className="flex-1 flex gap-x-2 h-max gap-y-2 flex-wrap">
-                        {isCustom && <Badge className='badge-neutral p-2!' text="Custom Movie"/>}
+                        {isCustom && <Badge className="badge-neutral p-2!" text="Custom Movie" />}
                         {data?.detail?.genres?.map((genre, index) => (
                             <span key={genre?.name}>
                                 <Badge className={'badge-neutral p-2!'} text={genre?.name} />
@@ -227,8 +222,7 @@ const ModalMovie = ({ data, isLoading, isCustom }: ModalMovieProps) => {
                         </Button>
                     )}
                 </div>
-                {
-                    !isCustom && 
+                {!isCustom && (
                     <div className="space-x-2!">
                         <p className="font-semibold text-zinc-400 text-lg">Related Movies</p>
                         <div className="grid grid-flow-col auto-cols-[200px] auto-rows-max gap-2 overflow-auto">
@@ -241,8 +235,7 @@ const ModalMovie = ({ data, isLoading, isCustom }: ModalMovieProps) => {
                             ))}
                         </div>
                     </div>
-                }
-                
+                )}
             </div>
         </div>
     )

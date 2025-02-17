@@ -10,7 +10,7 @@ interface ViewContextProps {
 export const CreateViewContext = createContext<ViewContextProps>({} as ViewContextProps)
 
 export const ViewProvider = ({ children }: { children: React.JSX.Element }) => {
-    const [view, setView] = useState<'grid' | 'table'>('grid')
+    const [view, setView] = useState<'grid' | 'table'>('table')
     const [isFromWatchlist, setIsFromWatchlist] = useState(false)
     return (
         <CreateViewContext
@@ -28,8 +28,5 @@ export const ViewProvider = ({ children }: { children: React.JSX.Element }) => {
 
 export const useView = () => {
     const context = useContext(CreateViewContext)
-    if (!context) {
-        throw new Error('Context muse be inside provider')
-    }
     return context
 }

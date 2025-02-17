@@ -1,11 +1,11 @@
 import { AppDispatch, RootState } from '@/redux/store/store'
 import { useDispatch, useSelector } from 'react-redux'
-import Card from '../Atoms/Card'
 import { openModal, updateModal } from '@/redux/slice/modalSlice'
 import ModalMovie from './ModalMovie'
 import { UseMovieDetails } from '@/hooks/UseMovieDetails'
 import { useView } from '@/context/ViewContext'
 import { AddMovie, Detail } from '@/types/ModalMovie'
+import CardWatchlist from '../Atoms/CardWatchlist'
 
 const Watchlist = () => {
     const { mutateAsync } = UseMovieDetails()
@@ -15,20 +15,24 @@ const Watchlist = () => {
     const handleSimilar = async (movie_id: string) => {
         setIsFromWatchlist(true)
 
-        const findCustom: AddMovie | null = movieList.find(e=>e?.id === movie_id) || null
-        if(movie_id.toString().includes('ADD')){
+        const findCustom: AddMovie | null = movieList.find((e) => e?.id === movie_id) || null
+        if (movie_id.toString().includes('ADD')) {
             const formatDataForComponent = {
                 detail: findCustom as Detail,
                 actors: findCustom?.actors,
                 trailer: undefined,
                 similar: undefined,
             }
-            dispatch(openModal({
-                type: 'element',
-                props: {
-                    element: <ModalMovie data={formatDataForComponent} isLoading={false} isCustom/>
-                }
-            }))
+            dispatch(
+                openModal({
+                    type: 'element',
+                    props: {
+                        element: (
+                            <ModalMovie data={formatDataForComponent} isLoading={false} isCustom />
+                        ),
+                    },
+                }),
+            )
             return
         }
 
@@ -64,9 +68,9 @@ const Watchlist = () => {
                 {Array.isArray(watchList) && watchList?.length > 0 ? (
                     <>
                         {watchList?.map((list, index) => (
-                            <Card
-                                key={list?.id}
-                                onClick={() => handleSimilar(list?.id.toString())}
+                            <CardWatchlist
+                                key={list}
+                                onClick={() => handleSimilar(list.toString())}
                                 item={list}
                             />
                         ))}
