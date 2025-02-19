@@ -19,17 +19,17 @@ const Gridview = ({ id, name }: { id: number | string; name: string }) => {
         <>
             <h2 className="text-2xl mb-1! font-semibold">{name}</h2>
             <div className="w-full mx-auto px-4 overflow-x-scroll">
-                <div className="grid grid-flow-col auto-cols-[300px] gap-6 mx-5! h-full">
+                <div className="grid grid-flow-col auto-cols-[300px] gap-6 mx-5! h-full carousel carousel-horizontal">
                     {['ADD'].includes(id.toString()) &&
                         movieList?.map((custom, index) => (
-                            <div key={index}>
+                            <div key={index} className='carousel-item'>
                                 <Item detail={custom} />
                             </div>
                         ))}
                     {Array.isArray(data?.results) &&
                         data?.results &&
                         data?.results?.map((item, index) => (
-                            <div key={index}>
+                            <div key={index} className='carousel-item'>
                                 <Item detail={item} />
                             </div>
                         ))}
