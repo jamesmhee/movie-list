@@ -18,8 +18,8 @@ const Gridview = ({ id, name }: { id: number | string; name: string }) => {
     return (
         <>
             <h2 className="text-2xl mb-1! font-semibold">{name}</h2>
-            <div className="w-full mx-auto px-4 overflow-x-scroll">
-                <div className="grid grid-flow-col auto-cols-[300px] gap-6 mx-5! h-full carousel carousel-horizontal">
+            <div className="w-full mx-auto px-4 overflow-x-scroll h-full my-5!">
+                <div className="grid grid-flow-col auto-cols-[300px] overflow-y-hidden py-2! gap-6 mx-5! carousel carousel-horizontal">
                     {['ADD'].includes(id.toString()) &&
                         movieList?.map((custom, index) => (
                             <div key={index} className='carousel-item'>

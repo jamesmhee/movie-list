@@ -93,7 +93,7 @@ const Item = ({ detail }: ItemsProps) => {
                         alt={detail?.title!}
                     />
                 </div>
-                <div className="group-hover:h-full text-zinc-900 dark:text-zinc-100 p-3! flex justify-between w-full h-full top-0 left-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:delay-500 transition-opacity duration-500 ease-out">
+                <div className="pointer-events-none! text-zinc-900 dark:text-zinc-100 p-3! flex justify-between w-full h-full top-0 left-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:delay-500 transition-opacity duration-500 ease-out">
                     <div className="bottom-4 left-4">
                         <h3 className="font-bold">{detail?.title}</h3>
                         <p className="text-sm">{detail?.release_date?.split('-')[0]}</p>
